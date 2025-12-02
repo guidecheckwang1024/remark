@@ -77,3 +77,23 @@ VALUES('ce580629-7fc4-4332-a11e-8525ef8d905a', '681320e5-dc78-42cd-98be-b6de6eed
 }', true, true, 'tlb', NULL, '2025-10-17 14:26:07.556', '2025-10-17 14:26:07.556', NULL, NULL, NULL, NULL, NULL, NULL);
 
 
+
+
+
+
+INSERT INTO public.ctint_service
+(id, "serviceType", "serviceLevel", quota, "rarelimitPerHour", "tenantId", "createTime", "createBy", "updateTime", "updateBy")
+VALUES('edd67423-68fe-4f2a-a369-f88b3a9bf339'::uuid, 'Report', 4, 400, 400, '16bf9209-ec57-481d-ac82-54d182efe189'::uuid, '2025-02-06 03:25:30.397', 'SYSTEM', NULL, 'SYSTEM');
+
+
+INSERT INTO public.ctint_tenant
+(id, "tenantName", "tenantType", description, "createTime", "createBy", "updateTime", "updateBy")
+VALUES('16bf9209-ec57-481d-ac82-54d182efe189'::uuid, 'tlb', 'common', 'tlb', '2024-11-08 05:56:18.617', 'SYSTEM', '2024-11-08 05:56:18.617', 'SYSTEM');
+
+INSERT INTO public.ctint_user_service_map
+("userId", "serviceId", "tenantId", "createTime", "createBy", "updateTime", "updateBy", state)
+VALUES('02685c9f-b8fe-4495-8039-afcaaba9869c', 'edd67423-68fe-4f2a-a369-f88b3a9bf339'::uuid, '16bf9209-ec57-481d-ac82-54d182efe189'::uuid, '2025-10-13 01:41:47.496', 'SYSTEM', NULL, NULL, 'active');
+
+
+
+
