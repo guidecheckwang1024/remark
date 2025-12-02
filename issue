@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"PersistentVolume","metadata":{"annotations":{},"name":"ctint-cdss3-report-pv"},"spec":{"accessModes":["ReadWriteMany"],"capacity":{"storage":"100M"},"csi":{"driver":"efs.csi.aws.com","volumeHandle":"fs-05c6f82a19baedd21"},"persistentVolumeReclaimPolicy":"Retain","storageClassName":"efs-sc"}}
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2025-11-25T10:38:19Z"
+  finalizers:
+  - kubernetes.io/pv-protection
+  name: ctint-cdss3-report-pv
+  resourceVersion: "29408149"
+  uid: 8f678b91-d8f6-4201-9b50-b50bb5051a76
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 100M
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: ctint-cdss3-report-pvc
+    namespace: ctint-tlb
+    resourceVersion: "29408120"
+    uid: 59ec6f36-3269-4578-a0e6-5be017af45c5
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-05c6f82a19baedd21
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs-sc
+  volumeMode: Filesystem
+status:
+  lastPhaseTransitionTime: "2025-11-25T10:38:27Z"
+  phase: Bound
+ubuntu@ip-172-31-6-129:~$ kubectl get pvc ctint-cdss3-report-pvc -n ctint-tlb -o yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"ctint-cdss3-report-pvc","namespace":"ctint-tlb"},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"100M"}},"storageClassName":"efs-sc"}}
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2025-11-25T10:38:19Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  name: ctint-cdss3-report-pvc
+  namespace: ctint-tlb
+  resourceVersion: "29408151"
+  uid: 59ec6f36-3269-4578-a0e6-5be017af45c5
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 100M
+  storageClassName: efs-sc
+  volumeMode: Filesystem
+  volumeName: ctint-cdss3-report-pv
+status:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 100M
+  phase: Bound
