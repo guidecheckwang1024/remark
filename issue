@@ -21,6 +21,14 @@ aws ecr get-login-password --region us-east-1 --profile TLBGCUAT-539015596789| \
 
 aws ecr create-repository --repository-name ta-cdss-eat/ctint-mf-report --region us-east-1 
 
-docker push 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-mf-report:1.0.9139
-docker push 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-mf-report:1.0.9139
-docker push 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-mf-report:1.0.9139
+docker push 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-report:1.0.10211
+docker push 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-job-engine:1.0.10591
+docker push 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-job-worker-report:1.0.9055
+
+539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/data-api-builder:v1.0.0
+
+
+
+  Normal   Scheduled    2m43s                default-scheduler  Successfully assigned ctint-tlb/ctint-report-app-deployment-796bfb64b7-8d9jq to ip-10-128-236-148.ec2.internal
+  Warning  FailedMount  35s (x9 over 2m43s)  kubelet            MountVolume.MountDevice failed for volume "ctint-cdss3-report-pv" : kubernetes.io/csi: attacher.MountDevice failed to create newCsiDriverClient: driver name efs.csi.aws.com not found in the list of registered CSI drivers
+
