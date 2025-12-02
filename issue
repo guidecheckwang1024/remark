@@ -32,3 +32,24 @@ docker push 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-job-w
   Normal   Scheduled    2m43s                default-scheduler  Successfully assigned ctint-tlb/ctint-report-app-deployment-796bfb64b7-8d9jq to ip-10-128-236-148.ec2.internal
   Warning  FailedMount  35s (x9 over 2m43s)  kubelet            MountVolume.MountDevice failed for volume "ctint-cdss3-report-pv" : kubernetes.io/csi: attacher.MountDevice failed to create newCsiDriverClient: driver name efs.csi.aws.com not found in the list of registered CSI drivers
 
+ubuntu@ip-10-128-236-61:~/Package/deployment_yaml_updated_20250923/report/backend/ctint-report$ kubectl describe csidrivers efs.csi.aws.com
+Name:         efs.csi.aws.com
+Namespace:
+Labels:       <none>
+Annotations:  <none>
+API Version:  storage.k8s.io/v1
+Kind:         CSIDriver
+Metadata:
+  Creation Timestamp:  2025-09-11T02:35:45Z
+  Resource Version:    286
+  UID:                 18255b6f-dabd-41b1-8ccc-c7935016f319
+Spec:
+  Attach Required:     false
+  Fs Group Policy:     ReadWriteOnceWithFSType
+  Pod Info On Mount:   false
+  Requires Republish:  false
+  Se Linux Mount:      false
+  Storage Capacity:    false
+  Volume Lifecycle Modes:
+    Persistent
+Events:  <none>
