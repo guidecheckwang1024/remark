@@ -53,3 +53,27 @@ Spec:
   Volume Lifecycle Modes:
     Persistent
 Events:  <none>
+
+
+
+
+INSERT INTO public.ctint_report_master
+("reportMasterId", "reportType", "reportName", description, tenant, platform, "createTime", "updateTime", "createBy", "updateBy", "implementUrl")
+VALUES('681320e5-dc78-42cd-98be-b6de6eed8694', 'Email', 'Email Report', NULL, 'tlb', NULL, '2025-10-17 14:20:51.813', '2025-10-17 14:20:51.813', NULL, NULL, '/tlb/cdss-manual-queue/api/v1/cdss-email/export/emailReport');
+
+INSERT INTO public.ctint_report_detail
+("reportDetailId", "reportMasterId", "detailType", "detailSubType", "detailKey", "detailValue", "detailRemark", "enable", "isRequired", tenant, platform, "createTime", "updateTime", "createBy", "updateBy", "parentDetailId", "dependencyDetailId", "dependencyValue", "sortOrder")
+VALUES('6b2dcee0-45d7-4f01-ab53-291c7f116428', '681320e5-dc78-42cd-98be-b6de6eed8694', 'parameter', 'datetime', 'startDatetime', NULL, '{
+    "label_en": "Start Date Time",
+    "label_zh-HK": "Start Date Time",
+    "label_zh-CN": "Start Date Time"
+}', true, true, 'tlb', NULL, '2025-10-17 14:25:26.398', '2025-10-17 14:25:26.398', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.ctint_report_detail
+("reportDetailId", "reportMasterId", "detailType", "detailSubType", "detailKey", "detailValue", "detailRemark", "enable", "isRequired", tenant, platform, "createTime", "updateTime", "createBy", "updateBy", "parentDetailId", "dependencyDetailId", "dependencyValue", "sortOrder")
+VALUES('ce580629-7fc4-4332-a11e-8525ef8d905a', '681320e5-dc78-42cd-98be-b6de6eed8694', 'parameter', 'datetime', 'endDatetime', NULL, '{
+    "label_en": "End Date Time",
+    "label_zh-HK": "End Date Time",
+    "label_zh-CN": "End Date Time"
+}', true, true, 'tlb', NULL, '2025-10-17 14:26:07.556', '2025-10-17 14:26:07.556', NULL, NULL, NULL, NULL, NULL, NULL);
+
+
