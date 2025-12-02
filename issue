@@ -15,7 +15,9 @@ docker tag 279497544667.dkr.ecr.ap-east-1.amazonaws.com/ta-cdss-sit/ctint-report
 docker tag 279497544667.dkr.ecr.ap-east-1.amazonaws.com/ta-cdss-sit/ctint-job-engine:1.0.10591 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-job-engine:1.0.10591
 docker tag 279497544667.dkr.ecr.ap-east-1.amazonaws.com/ta-cdss-sit/ctint-job-worker-report:1.0.9055 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-job-worker-report:1.0.9055
 
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 539015596789.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region us-east-1 --profile TLBGCUAT-539015596789| \
+  docker login --username AWS --password-stdin \
+  539015596789.dkr.ecr.us-east-1.amazonaws.com
 
 aws ecr create-repository --repository-name ta-cdss-eat/ctint-mf-report --region us-east-1 
 
