@@ -97,3 +97,13 @@ VALUES('02685c9f-b8fe-4495-8039-afcaaba9869c', 'edd67423-68fe-4f2a-a369-f88b3a9b
 
 
 
+kubectl patch configmap ingress-nginx-controller -n ingress-nginx -p '{
+  "data": {
+    "enable-underscores-in-headers": "true",
+    "http-port": "0",
+    "proxy-body-size": "50m",
+    "ssl-redirect": "true",
+    "ssl-certificate": "ingress-nginx/nginx-default-ssl",
+    "ssl-certificate-key": "ingress-nginx/nginx-default-ssl"
+  }
+}'
