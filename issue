@@ -107,3 +107,10 @@ kubectl patch configmap ingress-nginx-controller -n ingress-nginx -p '{
     "ssl-certificate-key": "ingress-nginx/nginx-default-ssl"
   }
 }'
+
+
+
+kubectl create secret tls my-tls-secret \
+  --cert=tls.crt \
+  --key=tls.key \
+  -n your-namespace
