@@ -1,116 +1,31 @@
-sudo -i
-aws ecr get-login-password --region ap-east-1 | docker login --username AWS --password-stdin 279497544667.dkr.ecr.ap-east-1.amazonaws.com
-
-
-An error occurred (UnrecognizedClientException) when calling the GetAuthorizationToken operation: The security token included in the request is invalid.
-Error: Cannot perform an interactive login from a non TTY device
-
-
-docker pull 279497544667.dkr.ecr.ap-east-1.amazonaws.com/ta-cdss-sit/ctint-report:1.0.10211
-docker pull 279497544667.dkr.ecr.ap-east-1.amazonaws.com/ta-cdss-sit/ctint-job-engine:1.0.10591
-docker pull 279497544667.dkr.ecr.ap-east-1.amazonaws.com/ta-cdss-sit/ctint-job-worker-report:1.0.9055
-
-# 2. 打标签 
-docker tag 279497544667.dkr.ecr.ap-east-1.amazonaws.com/ta-cdss-sit/ctint-report:1.0.10211 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-report:1.0.10211
-docker tag 279497544667.dkr.ecr.ap-east-1.amazonaws.com/ta-cdss-sit/ctint-job-engine:1.0.10591 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-job-engine:1.0.10591
-docker tag 279497544667.dkr.ecr.ap-east-1.amazonaws.com/ta-cdss-sit/ctint-job-worker-report:1.0.9055 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-job-worker-report:1.0.9055
-
-aws ecr get-login-password --region us-east-1 --profile TLBGCUAT-539015596789| \
-  docker login --username AWS --password-stdin \
-  539015596789.dkr.ecr.us-east-1.amazonaws.com
-
-aws ecr create-repository --repository-name ta-cdss-eat/ctint-mf-report --region us-east-1 
-
-docker push 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-report:1.0.10211
-docker push 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-job-engine:1.0.10591
-docker push 539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/ctint-job-worker-report:1.0.9055
-
-539015596789.dkr.ecr.us-east-1.amazonaws.com/ta-cdss-eat/data-api-builder:v1.0.0
-
-
-
-  Normal   Scheduled    2m43s                default-scheduler  Successfully assigned ctint-tlb/ctint-report-app-deployment-796bfb64b7-8d9jq to ip-10-128-236-148.ec2.internal
-  Warning  FailedMount  35s (x9 over 2m43s)  kubelet            MountVolume.MountDevice failed for volume "ctint-cdss3-report-pv" : kubernetes.io/csi: attacher.MountDevice failed to create newCsiDriverClient: driver name efs.csi.aws.com not found in the list of registered CSI drivers
-
-ubuntu@ip-10-128-236-61:~/Package/deployment_yaml_updated_20250923/report/backend/ctint-report$ kubectl describe csidrivers efs.csi.aws.com
-Name:         efs.csi.aws.com
-Namespace:
-Labels:       <none>
-Annotations:  <none>
-API Version:  storage.k8s.io/v1
-Kind:         CSIDriver
-Metadata:
-  Creation Timestamp:  2025-09-11T02:35:45Z
-  Resource Version:    286
-  UID:                 18255b6f-dabd-41b1-8ccc-c7935016f319
-Spec:
-  Attach Required:     false
-  Fs Group Policy:     ReadWriteOnceWithFSType
-  Pod Info On Mount:   false
-  Requires Republish:  false
-  Se Linux Mount:      false
-  Storage Capacity:    false
-  Volume Lifecycle Modes:
-    Persistent
-Events:  <none>
-
-
-
-
-INSERT INTO public.ctint_report_master
-("reportMasterId", "reportType", "reportName", description, tenant, platform, "createTime", "updateTime", "createBy", "updateBy", "implementUrl")
-VALUES('681320e5-dc78-42cd-98be-b6de6eed8694', 'Email', 'Email Report', NULL, 'tlb', NULL, '2025-10-17 14:20:51.813', '2025-10-17 14:20:51.813', NULL, NULL, '/tlb/cdss-manual-queue/api/v1/cdss-email/export/emailReport');
-
-INSERT INTO public.ctint_report_detail
-("reportDetailId", "reportMasterId", "detailType", "detailSubType", "detailKey", "detailValue", "detailRemark", "enable", "isRequired", tenant, platform, "createTime", "updateTime", "createBy", "updateBy", "parentDetailId", "dependencyDetailId", "dependencyValue", "sortOrder")
-VALUES('6b2dcee0-45d7-4f01-ab53-291c7f116428', '681320e5-dc78-42cd-98be-b6de6eed8694', 'parameter', 'datetime', 'startDatetime', NULL, '{
-    "label_en": "Start Date Time",
-    "label_zh-HK": "Start Date Time",
-    "label_zh-CN": "Start Date Time"
-}', true, true, 'tlb', NULL, '2025-10-17 14:25:26.398', '2025-10-17 14:25:26.398', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.ctint_report_detail
-("reportDetailId", "reportMasterId", "detailType", "detailSubType", "detailKey", "detailValue", "detailRemark", "enable", "isRequired", tenant, platform, "createTime", "updateTime", "createBy", "updateBy", "parentDetailId", "dependencyDetailId", "dependencyValue", "sortOrder")
-VALUES('ce580629-7fc4-4332-a11e-8525ef8d905a', '681320e5-dc78-42cd-98be-b6de6eed8694', 'parameter', 'datetime', 'endDatetime', NULL, '{
-    "label_en": "End Date Time",
-    "label_zh-HK": "End Date Time",
-    "label_zh-CN": "End Date Time"
-}', true, true, 'tlb', NULL, '2025-10-17 14:26:07.556', '2025-10-17 14:26:07.556', NULL, NULL, NULL, NULL, NULL, NULL);
-
-
-
-
-
-
-INSERT INTO public.ctint_service
-(id, "serviceType", "serviceLevel", quota, "rarelimitPerHour", "tenantId", "createTime", "createBy", "updateTime", "updateBy")
-VALUES('edd67423-68fe-4f2a-a369-f88b3a9bf339'::uuid, 'Report', 4, 400, 400, '16bf9209-ec57-481d-ac82-54d182efe189'::uuid, '2025-02-06 03:25:30.397', 'SYSTEM', NULL, 'SYSTEM');
-
-
-INSERT INTO public.ctint_tenant
-(id, "tenantName", "tenantType", description, "createTime", "createBy", "updateTime", "updateBy")
-VALUES('16bf9209-ec57-481d-ac82-54d182efe189'::uuid, 'tlb', 'common', 'tlb', '2024-11-08 05:56:18.617', 'SYSTEM', '2024-11-08 05:56:18.617', 'SYSTEM');
-
-INSERT INTO public.ctint_user_service_map
-("userId", "serviceId", "tenantId", "createTime", "createBy", "updateTime", "updateBy", state)
-VALUES('02685c9f-b8fe-4495-8039-afcaaba9869c', 'edd67423-68fe-4f2a-a369-f88b3a9bf339'::uuid, '16bf9209-ec57-481d-ac82-54d182efe189'::uuid, '2025-10-13 01:41:47.496', 'SYSTEM', NULL, NULL, 'active');
-
-
-
-
-kubectl patch configmap ingress-nginx-controller -n ingress-nginx -p '{
-  "data": {
-    "enable-underscores-in-headers": "true",
-    "http-port": "0",
-    "proxy-body-size": "50m",
-    "ssl-redirect": "true",
-    "ssl-certificate": "ingress-nginx/nginx-default-ssl",
-    "ssl-certificate-key": "ingress-nginx/nginx-default-ssl"
-  }
-}'
-
-
-
-kubectl create secret tls my-tls-secret \
-  --cert=tls.crt \
-  --key=tls.key \
-  -n your-namespace
+ubuntu@ip-10-66-88-87:~/Package/deployment_yaml_updated_20250923/frontend/ctint-mf-call$ kubectl get ingress -A
+NAMESPACE   NAME                                        CLASS   HOSTS                              ADDRESS                                                                         PORTS     AGE
+ctint-tlb   ctint-audit-log-app-ingress                 nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-auth-app-ingress                      nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-call-control-app-ingress              nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-ccsp-ws-app-ingress                   nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-cdss-manual-queue-app-ingress         nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-cdss-ws-app-ingress                   nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        28d
+ctint-tlb   ctint-config-app-ingress                    nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-conv-app-ingress                      nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-dab-digitalproxy-ingress              nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-datasync-hub-app-ingress              nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-digital-email-connector-app-ingress   nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-digital-proxy-app-ingress             nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-mf-call-ingress                       nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-mf-cdss-ingress                       nginx   cdss.transamericalifebermuda.com   k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80, 443   14h
+ctint-tlb   ctint-mf-content-creation-ingress           nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        27d
+ctint-tlb   ctint-mf-interaction-ingress                nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-mf-manual-queue-ingress               nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-nacos-app-ingress                     nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-session-app-ingress                   nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-session-manager-app-ingress           nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-state-auth-ingress                    nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-state-cdssmf-ingress                  nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-state-datasync-ingress                nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-state-session-manager-ingress         nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ctint-tlb   ctint-user-app-ingress                      nginx   *                                  k8s-ingressn-ingressn-dcd01a543c-ed7266994cceaf6f.elb.us-east-1.amazonaws.com   80        66d
+ubuntu@ip-10-66-88-87:~/Package/deployment_yaml_updated_20250923/frontend/ctint-mf-call$ vi ctint-mf-call-ingress.yaml
+ubuntu@ip-10-66-88-87:~/Package/deployment_yaml_updated_20250923/frontend/ctint-mf-call$ kubectl delete -f ctint-mf-call-ingress.yaml
+error: resource mapping not found for name: "ctint-mf-call-ingress" namespace: "ctint-tlb" from "ctint-mf-call-ingress.yaml": no matches for kind "Ingress" in version ""
+ensure CRDs are installed first
